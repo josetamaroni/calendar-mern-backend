@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 // Crear el servidor
@@ -23,7 +24,12 @@ app.use( '/api/auth', require('./routes/auth') );
 app.use( '/api/events', require('./routes/events') );
 
 
+// Redirigir al Index si no encuentra la ruta
+app.use('*', (req, res) => {
+    res.sendFile( path.join(__dirname, 'public/index.html') );
+})
+
 // Escuchar peticiones
 app.listen( process.env.PORT,()=>{
-    console.log(`Servidor corriendo en el puerto 4000`);
+    console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
 })
